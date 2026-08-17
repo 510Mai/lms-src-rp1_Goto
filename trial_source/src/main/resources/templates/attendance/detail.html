@@ -32,7 +32,8 @@
 				<small id="now"></small>
 			</div>
 			<div class="form-group">
-				<form th:action="@{/attendance/detail}" method="post" class="form-inline">
+				<form th:action="@{/attendance/detail}" method="post" class="form-inline"
+				onsubmit="return confirm('打刻します。よろしいですか？');">
 					<input type="submit" value="出勤" name="punchIn" class="btn btn-default" />
 					<input type="submit" value="退勤" name="punchOut" class="btn btn-default" />
 				</form>
@@ -79,6 +80,12 @@
 			setInterval(function() {
 				$("#now").text('現在の時刻は　' + getClock() + '　です。');
 			}, 1000);
+			
+			const PastDays = '[[${PastDays}]]';
+			
+			if (PastDays === 'true' || PastDays === true) {
+				alert("過去日に未入力の勤怠情報があります。");
+			}
 		});
 		function getClock() {
 			const today =  new Date();

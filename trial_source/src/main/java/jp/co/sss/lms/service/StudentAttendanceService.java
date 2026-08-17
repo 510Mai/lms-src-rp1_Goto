@@ -333,5 +333,17 @@ public class StudentAttendanceService {
 		// 完了メッセージ
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
+	
+	public Boolean notEnterCheck() throws ParseException {
+		String currentDate = dateUtil.getCurrentDateString();
+		
+		int count = tStudentAttendanceMapper.notEnterCount(loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, currentDate);
+		
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
 
 }
