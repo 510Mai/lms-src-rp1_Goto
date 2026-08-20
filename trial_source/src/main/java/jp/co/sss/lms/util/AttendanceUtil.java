@@ -146,5 +146,23 @@ public class AttendanceUtil {
 		}
 		return false;
 	}
-
+	
+	//Task.26
+	public LinkedHashMap<Integer, String> getHourMap(){
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		for(int i = 0; i < 24; i++) {
+			map.put(i, String.format("%02d", i));
+		}
+		return map;
+	}
+	
+	public LinkedHashMap<Integer, String> getMinuteMap(){
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		for(int j = 0; j < 60; j++) {
+			map.put(j, String.format("%02d", j));
+		}
+		return map;
+	}
 }
