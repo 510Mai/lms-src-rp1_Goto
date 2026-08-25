@@ -81,9 +81,9 @@
 				$("#now").text('現在の時刻は　' + getClock() + '　です。');
 			}, 1000);
 			
-			const PastDays = '[[${PastDays}]]';
+			const notEnterflg = '[[${notEnterflg}]]';
 			
-			if (PastDays === 'true' || PastDays === true) {
+			if (notEnterflg === 'true' || notEnterflg === true) {
 				alert("過去日に未入力の勤怠情報があります。");
 			}
 		});
