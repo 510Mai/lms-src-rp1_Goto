@@ -33,11 +33,12 @@ public class AttendanceController {
 	/**
 	 * 勤怠管理画面 初期表示
 	 * 
+	 * @author 後藤 舞
 	 * @param lmsUserId
 	 * @param courseId
 	 * @param model
 	 * @return 勤怠管理画面
-	 * @throws ParseException
+	 * @throws ParseException　勤怠未入力チェック内で日付パースエラーが発生した場合
 	 */
 	@RequestMapping(path = "/detail", method = RequestMethod.GET)
 	public String index(Model model) throws ParseException {
@@ -47,9 +48,9 @@ public class AttendanceController {
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
-		//Task.25
-		Boolean PastDays = studentAttendanceService.notEnterCheck();
-		model.addAttribute("PastDays", PastDays);
+		
+		Boolean notEnterflg = studentAttendanceService.notEnterCheck();
+		model.addAttribute("notEnterflg", notEnterflg);
 		
 		return "attendance/detail";
 	}

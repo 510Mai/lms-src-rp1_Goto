@@ -85,13 +85,13 @@
 			blank_time = #{blankTime}
 		WHERE student_attendance_id = #{studentAttendanceId}
 	</update>
-	
-	<select id="notEnterCount" resultType="int">
+	<!-- Task.25: 勤怠未入力件数取得、受講生IDと削除フラグ、現在日付を元に、過去日の勤怠未入力件数をカウントする -->
+	<select id="notEnterCount" resultType="Integer">
 	SELECT COUNT (*)
 	FROM t_student_attendance
 	WHERE lms_user_id = #{lmsUserId}
 			AND delete_flg = #{deleteFlg}
-			AND cast(#{currentDate} AS DATE) > cast(training_date AS DATE)
+			AND training_date &lt; #{trainingDate}
 			AND status != 1
 			AND (     
 				training_start_time = '' 

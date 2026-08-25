@@ -1,6 +1,7 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -361,18 +362,30 @@ public class StudentAttendanceService {
 		// 完了メッセージ
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
-	//Task.25
+	/**
+	 * 勤怠未入力チェック（Task.25）
+	 * 
+	 * @author 後藤 舞
+	 * @return Boolean 未入力の勤怠情報が存在する場合はtrue、 存在しない場合はfalse
+	 * @throws ParseException 日付文字列のバースに失敗した場合
+	 */
 	public Boolean notEnterCheck() throws ParseException {
-		String currentDate = dateUtil.getCurrentDateString();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		int count = tStudentAttendanceMapper.notEnterCount(loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, currentDate);
+		Date today = attendanceUtil.getTrainingDate(); 
 		
-		if (count > 0) {
-			return true;
-		}
+		 String dateStr = sdf.format(today);
+		 
+		 Date trainingDate = sdf.parse(dateStr);
+		 
+		 int count = tStudentAttendanceMapper.notEnterCount(loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, trainingDate);
+		    
+		    if (count > 0) {
+		        return true;
+		    }
 
-		return false;
-	}
+		    return false;
+		}
 		
 		
 		//Task.26 入力された出退勤の｛時間｝｛分｝を「hh:mm」形式の文字列に変換してセットする。

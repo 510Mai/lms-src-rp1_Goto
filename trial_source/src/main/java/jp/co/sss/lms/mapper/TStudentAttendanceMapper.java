@@ -65,8 +65,14 @@ public interface TStudentAttendanceMapper {
 	 */
 	Boolean update(TStudentAttendance tStudentAttendance);
 
-	
+	/**
+	 * @author 後藤 舞
+	 * @param lmsUserId LMSユーザID
+	 * @param deleteFlg　削除フラグ
+	 * @param trainingDate　比較対象の現在日付
+	 * @return int 未入力の勤怠件数
+	 */
 	
 	int notEnterCount(@Param("lmsUserId") Integer lmsUserId,
-			@Param("deleteFlg") Short deleteFlg, @Param("currentDate") String currentDate);
+			@Param("deleteFlg") Short deleteFlg, @Param("trainingDate") Date trainingDate);
 }
