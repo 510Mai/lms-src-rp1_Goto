@@ -128,11 +128,12 @@ public class AttendanceController {
 	/**
 	 * 勤怠情報直接変更画面 『更新』ボタン押下
 	 * 
-	 * @param attendanceForm
-	 * @param model
-	 * @param result
-	 * @return 勤怠管理画面
-	 * @throws ParseException
+	 * @author 後藤 舞
+	 * @param attendanceForm  勤怠情報の入力フォームデータ
+	 * @param model 画面に値を渡すためのModelオブジェクト
+	 * @param result バリデーション（入力チェック）の結果
+	 * @return 勤怠管理画面 遷移先である勤怠管理詳細画面のパス
+	 * @throws ParseException 日付や時間の解析処理でエラーが発生した場合
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
 	public String complete(AttendanceForm attendanceForm, Model model, BindingResult result)

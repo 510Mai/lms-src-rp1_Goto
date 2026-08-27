@@ -388,7 +388,14 @@ public class StudentAttendanceService {
 		}
 		
 		
-		//Task.26 入力された出退勤の｛時間｝｛分｝を「hh:mm」形式の文字列に変換してセットする。
+		/**
+		 * 勤怠時間フォーマット変換処理（Task.26）
+		 * 
+		 *@author 後藤 舞　
+		 *@param attendanceForm　勤怠一覧データを含む入力フォームオブジェクト
+		 *@return なし
+		 *@throws なし
+		 */
 		
 		public void formatConversion(AttendanceForm attendanceForm) {
 			

@@ -4,6 +4,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>勤怠情報変更｜LMS</title>
+	
+	<style>
+		.scroll-table-container th, 
+		.scroll-table-container td {
+			padding: 8px 4px !important; 
+			vertical-align: middle !important;
+		}
+	</style>
 </head>
 
 <body>
@@ -23,20 +31,24 @@
 		<div class="bs-component col-sm-12">
 
 			<form th:action="@{/attendance/update}" method="post">
+				
+				<div class="scroll-table-container" style="height: 600px; width: 100%; overflow-y: auto;">
 				<table class="table table-hover dataTable no-footer">
 					<thead>
 						<tr>
 							<th class="w140">日付</th>
-							<th class="w300">コース内容</th>
+							<th class="w140">コース内容</th>
 							<th class="60"></th>
-							<th class="w70">出勤</th>
-							<th class="w70">退勤</th>
-							<th class="w80">中抜け時間</th>
-							<th class="w70">ステータス</th>
-							<th class="w240">備考</th>
+							<th class="w180">出勤</th>
+							<th class="w180">退勤</th>
+							<th class="w90">中抜け時間</th>
+							<th class="w90">ステータス</th>
+							<th class="w140">備考</th>
 						</tr>
 					</thead>
 					<tbody>
+						
+				
 						<th:block th:each="dailyAttendanceForm, stat : *{attendanceForm.attendanceList}">
 							<tr>
 								<th:block>
@@ -54,7 +66,7 @@
 										th:value="${dailyAttendanceForm.statusDispName}" />
 								</th:block>
 								<td class="w140">[[${dailyAttendanceForm.dispTrainingDate}]]</td>
-								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
+								<td class="w140">[[${dailyAttendanceForm.sectionName}]]</td>
 
 
 								<!--Task.28 定時ボタンの追加-->
@@ -64,7 +76,7 @@
 										th:value="${stat.index}">定時</button>
 								</td>
 
-								<td class="w70">
+								<td class="w180">
 									<div style="display: flex; align-items: center; gap: 4px;">
 
 										<!-- 【出勤：時】のプルダウン -->
@@ -77,7 +89,8 @@
 										</select>
 										<span>：</span>
 										<!-- 【出勤：分】のプルダウン -->
-										<select th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|"
+										<select th:id="|startMinute${stat.index}|"
+											th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|"
 											class="form-control input-sm" style="width: 65px; display: inline-block;">
 											<option th:each="minute : ${attendanceForm.minuteMap}"
 												th:value="${minute.key}"
@@ -87,10 +100,11 @@
 									</div>
 								</td>
 
-								<td class="w70">
+								<td class="w180">
 									<div style="display: flex; align-items: center; gap: 4px;">
 										<!--【退勤:時】のプルダウン -->
-										<select th:name="|attendanceList[${stat.index}].trainingEndTimeHour|"
+										<select th:id="|endHour${stat.index}|"
+											th:name="|attendanceList[${stat.index}].trainingEndTimeHour|"
 											class="form-control input-sm" style="width: 65px; display: inline-block;">
 											<option th:each="hour : ${attendanceForm.hourMap}" th:value="${hour.key}"
 												th:selected="${hour.key == dailyAttendanceForm.trainingEndTimeHour}">
@@ -99,7 +113,8 @@
 										<span> : </span>
 
 										<!--【退勤:分】のプルダウン -->
-										<select th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|"
+										<select th:id="|endMinute${stat.index}|"
+											th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|"
 											class="form-control input-sm" style="width: 65px; display: inline-block;">
 											<option th:each="minute : ${attendanceForm.minuteMap}"
 												th:value="${minute.key}"
@@ -109,7 +124,7 @@
 									</div>
 								</td>
 								<!-- 【中抜け時間】のプルダウン-->
-								<td class="w140">
+								<td class="w90">
 									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}"
 											th:value="${blankTime.key}" th:inlne="text" class="form-control"
@@ -117,8 +132,8 @@
 											[[${blankTime.value}]]</option>
 									</select>
 								</td>
-								<td class="w70">[[${dailyAttendanceForm.statusDispName}]]</td>
-								<td class="w240">
+								<td class="w90">[[${dailyAttendanceForm.statusDispName}]]</td>
+								<td class="w140">
 									<input type="text" th:name="|attendanceList[${stat.index}].note|"
 										th:value="${dailyAttendanceForm.note}" class="form-control"></input>
 								</td>
@@ -126,7 +141,7 @@
 						</th:block>
 					</tbody>
 				</table>
-
+		</div>
 				<div class="form-group">
 					<th:block th:if="${session.loginUserDto.role == '0001'}">
 						<a th:href="@{/attendance/detail}" class="btn btn-default">戻る</a>
@@ -140,16 +155,27 @@
 			</form>
 		</div>
 	</div>
-
+	<!--Task.28の定時ボタン押下時の設定-->
 	<script>
 		$(function () {
 			$('.default-button').click(function () {
 				const index = $(this).val();
 				$('#startHour' + index).val(9);
-				
+				$('#startMinute' + index).val(0);
+				$('#endHour' + index).val(18);
+				$('#endMinute' + index).val(0);
 			});
 		});
 	</script>
+
+	<!--勤怠一覧で10日分のみ表示-->
+	<style>
+		.form-control{
+			
+		}
+	</style>
+	
+
 </body>
 
 </html>
