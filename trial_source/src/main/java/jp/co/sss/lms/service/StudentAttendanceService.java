@@ -223,8 +223,7 @@ public class StudentAttendanceService {
 		// Task.26 時間、フンのプルダウン
 		attendanceForm.setHourMap(attendanceUtil.getHourMap());
 		attendanceForm.setMinuteMap(attendanceUtil.getMinuteMap());
-	    
-		
+
 		// 途中退校している場合のみ設定
 		if (loginUserDto.getLeaveDate() != null) {
 			attendanceForm
@@ -243,7 +242,7 @@ public class StudentAttendanceService {
 			dailyAttendanceForm
 					.setTrainingStartTime(attendanceManagementDto.getTrainingStartTime());
 			dailyAttendanceForm.setTrainingEndTime(attendanceManagementDto.getTrainingEndTime());
-			
+
 			//Task.26(出勤）
 			String startTimeStr = attendanceManagementDto.getTrainingStartTime();
 			if (startTimeStr != null && startTimeStr.length() >= 5) {
@@ -263,10 +262,9 @@ public class StudentAttendanceService {
 				int endMin = Integer.parseInt(endTimeStr.substring(3, 5));
 				dailyAttendanceForm.setTrainingEndTimeHour(endHour);
 				dailyAttendanceForm.setTrainingEndTimeMinute(endMin);
-				
+
 			}
-			
-			
+
 			if (attendanceManagementDto.getBlankTime() != null) {
 				dailyAttendanceForm.setBlankTime(attendanceManagementDto.getBlankTime());
 				dailyAttendanceForm.setBlankTimeValue(String.valueOf(
@@ -362,6 +360,7 @@ public class StudentAttendanceService {
 		// 完了メッセージ
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
+
 	/**
 	 * 勤怠未入力チェック（Task.25）
 	 * 
@@ -371,56 +370,56 @@ public class StudentAttendanceService {
 	 */
 	public Boolean notEnterCheck() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Date today = attendanceUtil.getTrainingDate(); 
-		
-		 String dateStr = sdf.format(today);
-		 
-		 Date trainingDate = sdf.parse(dateStr);
-		 
-		 int count = tStudentAttendanceMapper.notEnterCount(loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, trainingDate);
-		    
-		    if (count > 0) {
-		        return true;
-		    }
 
-		    return false;
+		Date today = attendanceUtil.getTrainingDate();
+
+		String dateStr = sdf.format(today);
+
+		Date trainingDate = sdf.parse(dateStr);
+
+		int count = tStudentAttendanceMapper.notEnterCount(loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE,
+				trainingDate);
+
+		if (count > 0) {
+			return true;
 		}
-		
-		
-		/**
-		 * 勤怠時間フォーマット変換処理（Task.26）
-		 * 
-		 *@author 後藤 舞　
-		 *@param attendanceForm　勤怠一覧データを含む入力フォームオブジェクト
-		 *@return なし
-		 *@throws なし
-		 */
-		
-		public void formatConversion(AttendanceForm attendanceForm) {
-			
-			for(DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
-			 
+
+		return false;
+	}
+
+	/**
+	 * 勤怠時間フォーマット変換処理（Task.26）
+	 * 
+	 *@author 後藤 舞　
+	 *@param attendanceForm　勤怠一覧データを含む入力フォームオブジェクト
+	 *@return なし
+	 *@throws なし
+	 */
+
+	public void formatConversion(AttendanceForm attendanceForm) {
+
+		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
+
 			Integer startHour = dailyAttendanceForm.getTrainingStartTimeHour();
-			
+
 			Integer startMin = dailyAttendanceForm.getTrainingStartTimeMinute();
-			
+
 			Integer endHour = dailyAttendanceForm.getTrainingEndTimeHour();
-			
+
 			Integer endMin = dailyAttendanceForm.getTrainingEndTimeMinute();
-			
-			if(startHour != null && startMin != null) {
+
+			if (startHour != null && startMin != null) {
 				String trainingStartTime = String.format("%02d:%02d", startHour, startMin);
-				
-				 dailyAttendanceForm.setTrainingStartTime(trainingStartTime);
+
+				dailyAttendanceForm.setTrainingStartTime(trainingStartTime);
 			}
-			
-			if(endHour != null && endMin != null) {
+
+			if (endHour != null && endMin != null) {
 				String trainingEndTime = String.format("%02d:%02d", endHour, endMin);
-				
-				 dailyAttendanceForm.setTrainingEndTime(trainingEndTime);
+
+				dailyAttendanceForm.setTrainingEndTime(trainingEndTime);
 			}
-			
+
 		}
 	}
 

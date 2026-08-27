@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	th:replace="~{/common/layout :: layout(~{::title},~{::body/content()})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/common/layout :: layout(~{::title},~{::body/content()})}">
+
 <head>
-<meta charset="UTF-8">
-<title>勤怠情報変更｜LMS</title>
+	<meta charset="UTF-8">
+	<title>勤怠情報変更｜LMS</title>
 </head>
+
 <body>
 
 	<!-- 完了メッセージ -->
@@ -33,7 +34,7 @@
 			</div>
 			<div class="form-group">
 				<form th:action="@{/attendance/detail}" method="post" class="form-inline"
-				onsubmit="return confirm('打刻します。よろしいですか？');">
+					onsubmit="return confirm('打刻します。よろしいですか？');">
 					<input type="submit" value="出勤" name="punchIn" class="btn btn-default" />
 					<input type="submit" value="退勤" name="punchOut" class="btn btn-default" />
 				</form>
@@ -58,7 +59,8 @@
 				</thead>
 
 				<tbody class="db">
-					<th:block th:each="attendanceManagementDto : ${attendanceManagementDtoList}" th:object="${attendanceManagementDto}">
+					<th:block th:each="attendanceManagementDto : ${attendanceManagementDtoList}"
+						th:object="${attendanceManagementDto}">
 						<tr>
 							<td class="w160">[[*{#dates.format(trainingDate, 'yyyy年M月d日(E)')}]]</td>
 							<td class="w260">[[*{sectionName}]]</td>
@@ -75,20 +77,20 @@
 	</div>
 	<!-- Task.25　アラートダイアログ -->
 	<script type="text/javascript" th:inline="javascript">
-		$(function() {
+		$(function () {
 			$("#now").text('現在の時刻は　' + getClock() + '　です。');
-			setInterval(function() {
+			setInterval(function () {
 				$("#now").text('現在の時刻は　' + getClock() + '　です。');
 			}, 1000);
-			
+
 			const notEnterflg = '[[${notEnterflg}]]';
-			
+
 			if (notEnterflg === 'true' || notEnterflg === true) {
 				alert("過去日に未入力の勤怠情報があります。");
 			}
 		});
 		function getClock() {
-			const today =  new Date();
+			const today = new Date();
 			const hours = ('0' + today.getHours()).slice(-2);
 			const minutes = ('0' + today.getMinutes()).slice(-2);
 			return hours + ':' + minutes;
@@ -96,4 +98,5 @@
 	</script>
 
 </body>
+
 </html>

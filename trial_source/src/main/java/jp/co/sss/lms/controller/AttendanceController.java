@@ -48,10 +48,9 @@ public class AttendanceController {
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
-		
 		Boolean notEnterflg = studentAttendanceService.notEnterCheck();
 		model.addAttribute("notEnterflg", notEnterflg);
-		
+
 		return "attendance/detail";
 	}
 
@@ -143,8 +142,7 @@ public class AttendanceController {
 		// 更新
 		String message = studentAttendanceService.update(attendanceForm);
 		model.addAttribute("message", message);
-		
-		
+
 		// 一覧の再取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
@@ -152,7 +150,5 @@ public class AttendanceController {
 
 		return "attendance/detail";
 	}
-	
-	
 
 }
