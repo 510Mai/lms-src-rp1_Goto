@@ -1,5 +1,7 @@
 package jp.co.sss.lms.service;
 
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
@@ -422,5 +425,32 @@ public class StudentAttendanceService {
 
 		}
 	}
+	
+	/**
+	 * 入力チェックの実装、確認ダイアログの追加　（Task.27）
+	 * 
+	 * 
+	 * @author 後藤 舞
+	 * @param
+	 * @throws なし
+	 */
+	
+	public void updateInputCheck(AttendanceForm attendanceForm, BindingResult result) {
+		List<DailyAttendanceForm> list = attendanceForm.getAttendanceList();
+		//DailyAttendanceFormごとにチェックを実地
+		for(int i = 0; i < list.size(); i++) {
+			//listのi番目のデータをdailyFormに代入
+			DailyAttendanceForm dailyForm = list.get(i);
+			// dailyForm（DailyAttendanceForm）から備考（Note）を取り出す
+			String note = dailyForm.getNote();
+			//備考に文字が入っていて、かつ100文字以上であったら、エラーになる
+			if (note != null && note.length()> 100) {
+				
+			}
+		
+		}
+		
+	}
+	
 
 }

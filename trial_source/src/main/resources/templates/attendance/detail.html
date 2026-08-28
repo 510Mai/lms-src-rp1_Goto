@@ -33,11 +33,10 @@
 				<small id="now"></small>
 			</div>
 			<div class="form-group">
-				<form th:action="@{/attendance/detail}" method="post" class="form-inline"
-					onsubmit="return confirm('打刻します。よろしいですか？');">
-					<input type="submit" value="出勤" name="punchIn" class="btn btn-default" />
-					<input type="submit" value="退勤" name="punchOut" class="btn btn-default" />
-				</form>
+				   <form th:action="@{/attendance/detail}" method="post" class="form-inline"onsubmit="return confirm('打刻します。よろしいですか？');">
+				<input type="submit" value="出勤" name="punchIn" class="btn btn-default" />
+				<input type="submit" value="退勤" name="punchOut" class="btn btn-default" />
+				  </form>
 			</div>
 			<p><a th:href="@{/attendance/update}">勤怠情報を直接編集する</a></p>
 		</div>
@@ -59,8 +58,7 @@
 				</thead>
 
 				<tbody class="db">
-					<th:block th:each="attendanceManagementDto : ${attendanceManagementDtoList}"
-						th:object="${attendanceManagementDto}">
+					<th:block th:each="attendanceManagementDto : ${attendanceManagementDtoList}"th:object="${attendanceManagementDto}">
 						<tr>
 							<td class="w160">[[*{#dates.format(trainingDate, 'yyyy年M月d日(E)')}]]</td>
 							<td class="w260">[[*{sectionName}]]</td>
